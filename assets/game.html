@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0a0e27">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>Sky Fighter - Game</title>
+    <link rel="stylesheet" href="assets/css/game.css">
+    <link rel="icon" href="assets/image/Ankit.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+</head>
+<body>
+    <div class="game-container">
+        <!-- Header Section -->
+        <header class="game-header">
+            <div class="header-left">
+                <h1 class="game-title">SKY FIGHTER</h1>
+            </div>
+           <div class="header-right">
+                <button id="soundBtn" class="control-btn sound-btn" title="Toggle Sound">
+                    <i class="bi bi-volume-up-fill"></i>
+                </button>
+                <a href="index.html" class="control-btn home-btn" title="Home">
+                    <i class="bi bi-house-fill"></i>
+                </a>
+            </div>
+
+        </header>
+
+        <!-- Stats Display -->
+       <div class="stats-container">
+            <div class="stat-box score-box">
+                <div class="stat-label"><i class="bi bi-trophy-fill"></i> SCORE</div>
+                <div class="stat-value" id="scoreDisplay">0</div>
+            </div>
+            <div class="stat-box best-box">
+                <div class="stat-label"><i class="bi bi-award-fill"></i> BEST</div>
+                <div class="stat-value" id="bestDisplay">0</div>
+            </div>
+            <div class="stat-box level-box">
+                <div class="stat-label"><i class="bi bi-bar-chart-fill"></i> LEVEL</div>
+                <div class="stat-value" id="levelDisplay">1</div>
+            </div>
+            <div class="stat-box lives-box">
+                <div class="stat-label"><i class="bi bi-heart-pulse-fill"></i> LIVES</div>
+                <div class="lives-display" id="livesDisplay">
+                    <span class="life-icon"><i class="bi bi-heart-fill"></i></span>
+                    <span class="life-icon"><i class="bi bi-heart-fill"></i></span>
+                    <span class="life-icon"><i class="bi bi-heart-fill"></i></span>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Game Canvas Area -->
+        <div class="game-wrapper">
+            <canvas id="gameCanvas"></canvas>
+            <div class="wave-indicator" id="waveIndicator"></div>
+            
+            <!-- Game Over Overlay -->
+            <div class="overlay" id="gameOverlay">
+                <div class="overlay-content">
+                    <div class="overlay-title" id="overlayTitle">GAME OVER</div>
+                    <div class="overlay-stats">
+                        <div class="overlay-stat">
+                            <span>Final Score:</span>
+                            <span id="finalScore" class="stat-highlight">0</span>
+                        </div>
+                        <div class="overlay-stat">
+                            <span>Best Score:</span>
+                            <span id="bestScore" class="stat-highlight">0</span>
+                        </div>
+                        <div class="overlay-stat">
+                            <span>Level Reached:</span>
+                            <span id="levelReached" class="stat-highlight">1</span>
+                        </div>
+                    </div>
+                    <button class="play-btn" id="playBtn"><i class="bi bi-arrow-repeat"></i> PLAY AGAIN</button>
+                    <a href="index.html" class="play-btn secondary-btn"><i class="bi bi-house-fill"></i> HOME</a>
+
+                </div>
+            </div>
+
+            <!-- Pause Overlay -->
+            <div class="overlay" id="pauseOverlay">
+                <div class="overlay-content">
+                    <div class="overlay-title"><i class="bi bi-pause-circle-fill"></i> PAUSED</div>
+                    <button class="play-btn" id="resumeBtn"><i class="bi bi-play-fill"></i> RESUME</button>
+                    <button class="play-btn secondary-btn" id="quitBtn"><i class="bi bi-house-fill"></i> HOME</button>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Controls Section -->
+       <div class="mobile-controls" id="mobileControls">
+            <!-- D-Pad -->
+            <div class="dpad-container">
+                <button class="dpad-btn dpad-up" id="upBtn"><i class="bi bi-caret-up-fill"></i></button>
+                <div class="dpad-horizontal">
+                    <button class="dpad-btn dpad-left" id="leftBtn"><i class="bi bi-caret-left-fill"></i></button>
+                    <div class="dpad-center"></div>
+                    <button class="dpad-btn dpad-right" id="rightBtn"><i class="bi bi-caret-right-fill"></i></button>
+                </div>
+                <button class="dpad-btn dpad-down" id="downBtn"><i class="bi bi-caret-down-fill"></i></button>
+            </div>
+
+            <!-- Virtual Joystick -->
+            <div class="joystick-container">
+                <div class="joystick-bg">
+                    <div class="joystick-stick" id="joystick"></div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <button class="action-btn shoot-btn" id="shootBtn">
+                    <i class="bi bi-crosshair" style="font-size: 1.8rem;"></i>
+                </button>
+                <button class="action-btn pause-btn" id="pauseBtn" title="Pause Game">
+                    <i class="bi bi-pause-fill" style="font-size: 1.8rem;"></i>
+                </button>
+            </div>
+        </div>
+
+
+        <!-- Keyboard Controls Info -->
+        <div class="controls-info" id="controlsInfo">
+            <p id="controlsText">Arrows/WASD: Move • SPACE: Shoot • P: Pause</p>
+        </div>
+    </div>
+
+    <script src="assets/js/game.js"></script>
+</body>
+</html>

@@ -1,0 +1,813 @@
+/* ===========================================
+   SKY FIGHTER - Game BY VILLAN7667@GITHUB
+   =========================================*/
+
+   * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #0a0e27;
+}
+
+body {
+    background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #2a1a3a 100%);
+    color: #00ff88;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    overflow: hidden;
+}
+
+/* Game Container */
+.game-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+    overflow: hidden;
+}
+
+/* ===================================
+   HEADER SECTION
+   =================================== */
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    background: rgba(10, 14, 39, 0.95);
+    border-bottom: 2px solid #00ff88;
+    box-shadow: 0 4px 15px rgba(0, 255, 136, 0.2);
+    z-index: 100;
+    flex-shrink: 0;
+}
+
+.header-left {
+    flex: 1;
+}
+
+.game-title {
+    font-size: clamp(1.2rem, 3vw, 1.8rem);
+    color: #00ff88;
+    text-shadow: 0 0 15px #00ff88;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.header-right {
+    display: flex;
+    gap: 10px;
+}
+
+.control-btn {
+    background: rgba(0, 255, 136, 0.1);
+    border: 2px solid #00ff88;
+    color: #00ff88;
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    padding: 0;
+}
+
+.control-btn:active {
+    transform: scale(0.95);
+    background: rgba(0, 255, 136, 0.3);
+}
+
+.control-btn:hover {
+    box-shadow: 0 0 15px rgba(0, 255, 136, 0.5);
+}
+
+/* ===================================
+   STATS CONTAINER
+   =================================== */
+.stats-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 10px;
+    padding: 12px 10px;
+    background: rgba(10, 14, 39, 0.8);
+    border-bottom: 1px solid rgba(0, 255, 136, 0.3);
+    flex-shrink: 0;
+    min-height: 80px;
+}
+
+.stat-box {
+    background: rgba(30, 30, 50, 0.8);
+    border: 1px solid #00ff88;
+    padding: 8px 10px;
+    border-radius: 6px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.stat-box.score-box {
+    border-color: #00ffcc;
+}
+
+.stat-box.best-box {
+    border-color: #ffff00;
+}
+
+.stat-box.level-box {
+    border-color: #ff6600;
+}
+
+.stat-box.lives-box {
+    border-color: #ff3366;
+}
+
+.stat-label {
+    font-size: 0.7rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+}
+
+.stat-box.score-box .stat-label {
+    color: #00ffcc;
+}
+
+.stat-box.best-box .stat-label {
+    color: #ffff00;
+}
+
+.stat-box.level-box .stat-label {
+    color: #ff6600;
+}
+
+.stat-box.lives-box .stat-label {
+    color: #ff3366;
+}
+
+.stat-value {
+    font-size: clamp(1rem, 2vw, 1.5rem);
+    font-weight: bold;
+    font-family: 'Courier New', monospace;
+    letter-spacing: 1px;
+}
+
+.stat-box.score-box .stat-value {
+    color: #00ffcc;
+}
+
+.stat-box.best-box .stat-value {
+    color: #ffff00;
+}
+
+.stat-box.level-box .stat-value {
+    color: #ffaa00;
+}
+
+.lives-display {
+    display: flex;
+    justify-content: center;
+    gap: 3px;
+}
+
+.life-icon {
+    color: #ff3366;
+    font-size: 1.2rem;
+    text-shadow: 0 0 8px #ff3366;
+}
+
+/* ===================================
+   GAME WRAPPER & CANVAS
+   =================================== */
+.game-wrapper {
+    position: relative;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: #000;
+    min-height: 0;
+}
+
+canvas {
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    border: 8px solid transparent;
+    border-image: linear-gradient(var(--neon-angle, 0deg), #00ff88, #00ccff, #ff00ff, #00ff88) 1;
+    background: #000;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    animation: neon-running 3s linear infinite;
+}
+@keyframes neon-running {
+    0% {
+        --neon-angle: 0deg;
+        box-shadow: 
+            0 0 10px #00ff88,
+            0 0 30px rgba(0, 255, 136, 0.6), 
+            0 0 60px rgba(0, 255, 136, 0.4), 
+            inset 0 0 20px rgba(0, 255, 136, 0.1);
+    }
+    50% {
+        box-shadow: 
+            0 0 15px #00ccff,
+            0 0 40px rgba(0, 204, 255, 0.8), 
+            0 0 80px rgba(0, 204, 255, 0.6), 
+            inset 0 0 30px rgba(0, 204, 255, 0.2);
+    }
+    100% {
+        --neon-angle: 360deg;
+        box-shadow: 
+            0 0 10px #001eff,
+            0 0 30px rgba(0, 255, 136, 0.6), 
+            0 0 60px rgba(251, 0, 255, 0.4), 
+            inset 0 0 20px rgba(0, 255, 136, 0.1);
+    }
+}
+
+@property --neon-angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+}
+
+
+
+/* ===================================
+   OVERLAYS (Game Over, Pause)
+   =================================== */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.85);
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
+    backdrop-filter: blur(8px);
+    z-index: 200;
+    padding: 20px;
+}
+
+.overlay.active {
+    display: flex;
+    animation: overlayFadeIn 0.3s ease;
+}
+
+@keyframes overlayFadeIn {
+    from {
+        opacity: 0;
+        backdrop-filter: blur(0px);
+    }
+    to {
+        opacity: 1;
+        backdrop-filter: blur(8px);
+    }
+}
+
+.overlay-content {
+    text-align: center;
+    color: white;
+}
+
+.overlay-title {
+    font-size: clamp(2rem, 5vw, 3rem);
+    color: #ff3366;
+    margin-bottom: 20px;
+    text-shadow: 0 0 25px #ff3366;
+    font-weight: bold;
+    letter-spacing: 2px;
+    animation: pulse-title 0.6s ease;
+}
+
+@keyframes pulse-title {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+.overlay-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.overlay-stat {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    font-size: clamp(0.9rem, 2vw, 1.2rem);
+    color: #00ffcc;
+    min-width: 250px;
+}
+
+.stat-highlight {
+    color: #00ff88;
+    font-weight: bold;
+    font-family: 'Courier New', monospace;
+    text-shadow: 0 0 10px #00ff88;
+}
+
+.play-btn {
+    background: linear-gradient(135deg, #00ff88 0%, #00ccff 100%);
+    color: #000;
+    border: none;
+    padding: clamp(12px 25px, 2vw 4vw, 16px 35px);
+    font-size: clamp(0.9rem, 2vw, 1.1rem);
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+    position: relative;
+    overflow: hidden;
+}
+
+.play-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.3);
+    transition: left 0.3s ease;
+    z-index: -1;
+}
+
+.play-btn:hover::before {
+    left: 100%;
+}
+
+.play-btn:active {
+    transform: scale(0.98);
+}
+
+.play-btn:hover:not(.secondary-btn) {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px rgba(0, 255, 136, 0.8);
+}
+
+.secondary-btn {
+    background: linear-gradient(135deg, #ff6600 0%, #ffaa00 100%);
+    color: #000;
+    box-shadow: 0 0 20px rgba(255, 102, 0, 0.5);
+}
+
+.secondary-btn:hover {
+    box-shadow: 0 0 30px rgba(255, 102, 0, 0.8);
+}
+
+.wave-indicator {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(255, 102, 0, 0.9);
+    color: #ffaa00;
+    padding: 8px 15px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: clamp(0.75rem, 1.5vw, 0.95rem);
+    z-index: 50;
+    display: none;
+    box-shadow: 0 0 15px rgba(255, 102, 0, 0.6);
+    border: 1px solid #ffaa00;
+}
+
+.wave-indicator.active {
+    display: block;
+    animation: waveSlideIn 0.4s ease;
+}
+
+@keyframes waveSlideIn {
+    from {
+        opacity: 0;
+        transform: translateX(50px) scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+}
+
+/* ===================================
+   MOBILE CONTROLS
+   =================================== */
+.mobile-controls {
+    display: none;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    padding: 15px;
+    background: rgba(10, 14, 39, 0.95);
+    border-top: 2px solid #00ff88;
+    gap: 10px;
+    flex-wrap: wrap;
+    min-height: 140px;
+    flex-shrink: 0;
+}
+
+.mobile-controls.active {
+    display: flex;
+}
+
+/* D-Pad Styling */
+.dpad-container {
+    display: grid;
+    grid-template-columns: repeat(3, 50px);
+    gap: 5px;
+    align-items: center;
+    justify-items: center;
+}
+
+.dpad-horizontal {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    justify-content: center;
+}
+
+.dpad-center {
+    width: 40px;
+    height: 40px;
+    background: rgba(0, 255, 136, 0.05);
+    border-radius: 4px;
+}
+
+.dpad-btn {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, rgba(0, 255, 136, 0.3) 0%, rgba(0, 204, 255, 0.3) 100%);
+    border: 2px solid #00ff88;
+    color: #00ff88;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.1s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+}
+
+.dpad-btn:active {
+    background: linear-gradient(135deg, rgba(0, 255, 136, 0.6) 0%, rgba(0, 204, 255, 0.6) 100%);
+    transform: scale(0.95);
+    box-shadow: 0 0 15px rgba(0, 255, 136, 0.8);
+}
+
+.dpad-up {
+    grid-column: 2;
+    grid-row: 1;
+}
+
+.dpad-down {
+    grid-column: 2;
+    grid-row: 3;
+}
+
+.dpad-left {
+    order: -1;
+}
+
+.dpad-right {
+    order: 1;
+}
+
+/* Virtual Joystick */
+.joystick-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+}
+
+.joystick-bg {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    background: radial-gradient(circle, rgba(0, 255, 136, 0.2) 0%, rgba(0, 255, 136, 0.05) 100%);
+    border: 2px solid #00ff88;
+    border-radius: 50%;
+    box-shadow: 0 0 15px rgba(0, 255, 136, 0.3), inset 0 0 15px rgba(0, 255, 136, 0.1);
+}
+
+.joystick-stick {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background: radial-gradient(circle, #00ff88 0%, #00ccff 100%);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 15px rgba(0, 255, 136, 0.8), inset 0 0 8px rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    transition: all 0.05s linear;
+    border: 2px solid #00ffcc;
+}
+
+.joystick-stick.active {
+    box-shadow: 0 0 25px rgba(0, 255, 136, 1), inset 0 0 8px rgba(255, 255, 255, 0.5);
+}
+
+/* Action Buttons */
+.action-buttons {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    flex: 0 0 auto;
+}
+
+.action-btn {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: 2px solid;
+    background: linear-gradient(135deg, rgba(255, 102, 0, 0.3) 0%, rgba(255, 170, 0, 0.3) 100%);
+    color: #ffaa00;
+    border-color: #ff6600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.1s ease;
+    box-shadow: 0 0 15px rgba(255, 102, 0, 0.3);
+}
+
+.action-btn:active {
+    background: linear-gradient(135deg, rgba(255, 102, 0, 0.6) 0%, rgba(255, 170, 0, 0.6) 100%);
+    transform: scale(0.95);
+    box-shadow: 0 0 25px rgba(255, 102, 0, 0.8);
+}
+
+.shoot-btn {
+    background: linear-gradient(135deg, rgba(0, 204, 255, 0.3) 0%, rgba(0, 255, 255, 0.3) 100%);
+    border-color: #00ffcc;
+    color: #00ffcc;
+    box-shadow: 0 0 15px rgba(0, 204, 255, 0.3);
+}
+
+.shoot-btn:active {
+    background: linear-gradient(135deg, rgba(0, 204, 255, 0.6) 0%, rgba(0, 255, 255, 0.6) 100%);
+    box-shadow: 0 0 25px rgba(0, 204, 255, 0.8);
+}
+
+/* ===================================
+   CONTROLS INFO
+   =================================== */
+.controls-info {
+    padding: 8px 10px;
+    background: rgba(10, 14, 39, 0.8);
+    border-top: 1px solid rgba(0, 255, 136, 0.3);
+    text-align: center;
+    flex-shrink: 0;
+}
+
+#controlsText {
+    font-size: clamp(0.7rem, 1.2vw, 0.85rem);
+    color: #00ffaa;
+    opacity: 0.8;
+    letter-spacing: 0.5px;
+}
+
+/* ===================================
+   RESPONSIVE DESIGN
+   =================================== */
+
+/* Tablet (768px - 1024px) */
+@media (max-width: 1024px) {
+    .stats-container {
+        gap: 8px;
+        padding: 10px 8px;
+    }
+
+    .stat-box {
+        padding: 6px 8px;
+        min-width: 90px;
+    }
+
+    canvas {
+        border-width: 1.5px;
+    }
+}
+
+/* Mobile Portrait & Landscape Detection */
+@media (orientation: landscape) and (max-height: 600px) {
+    .game-header {
+        padding: 8px 10px;
+    }
+
+    .game-title {
+        font-size: 1.2rem;
+    }
+
+    .stats-container {
+        grid-template-columns: repeat(4, 1fr);
+        min-height: 60px;
+        padding: 8px;
+        gap: 6px;
+    }
+
+    .stat-label {
+        font-size: 0.6rem;
+        margin-bottom: 2px;
+    }
+
+    .stat-value {
+        font-size: 0.9rem;
+    }
+
+    #controlsText {
+        font-size: 0.65rem;
+    }
+
+    .mobile-controls {
+        min-height: 120px;
+        padding: 12px;
+    }
+}
+
+/* Mobile (max-width: 768px) */
+@media (max-width: 768px) {
+    .mobile-controls.active {
+        display: flex;
+    }
+
+    .stats-container {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 6px;
+        padding: 8px;
+        min-height: 70px;
+    }
+
+    .stat-box {
+        padding: 6px;
+    }
+
+    .stat-label {
+        font-size: 0.65rem;
+    }
+
+    .stat-value {
+        font-size: 1rem;
+    }
+
+    #controlsText {
+        font-size: 0.75rem;
+    }
+}
+
+/* Small Phones (max-width: 480px) */
+@media (max-width: 480px) {
+    .game-header {
+        padding: 10px;
+    }
+
+    .game-title {
+        font-size: 1rem;
+        letter-spacing: 1px;
+    }
+
+    .control-btn {
+        width: 40px;
+        height: 40px;
+    }
+
+    .stats-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 5px;
+        padding: 6px;
+        min-height: 80px;
+    }
+
+    .stat-box {
+        padding: 5px;
+        border: 1px solid #00ff88;
+    }
+
+    .stat-label {
+        font-size: 0.6rem;
+        margin-bottom: 2px;
+    }
+
+    .stat-value {
+        font-size: 0.9rem;
+    }
+
+    .dpad-btn {
+        width: 45px;
+        height: 45px;
+        font-size: 1rem;
+    }
+
+    .dpad-container {
+        grid-template-columns: repeat(3, 45px);
+        gap: 3px;
+    }
+
+    .action-btn {
+        width: 60px;
+        height: 60px;
+    }
+
+    .action-btn svg {
+        width: 28px !important;
+        height: 28px !important;
+    }
+
+    #controlsText {
+        font-size: 0.7rem;
+        padding: 6px;
+    }
+
+    .overlay-title {
+        font-size: 1.8rem;
+    }
+
+    .play-btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+}
+
+/* Ultra-wide screens (max-width: 360px) */
+@media (max-width: 360px) {
+    .dpad-container {
+        grid-template-columns: repeat(3, 40px);
+        gap: 2px;
+    }
+
+    .dpad-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 0.9rem;
+    }
+
+    .action-btn {
+        width: 55px;
+        height: 55px;
+    }
+
+    .joystick-bg {
+        width: 100px;
+        height: 100px;
+    }
+
+    .joystick-stick {
+        width: 35px;
+        height: 35px;
+    }
+}
+
+/* Full Screen Mode */
+.game-container:fullscreen {
+    background: #000;
+}
+
+canvas:fullscreen {
+    width: 100%;
+    height: 100%;
+}
+
+/* Smooth scrolling & animations */
+@supports (backdrop-filter: blur(10px)) {
+    .overlay {
+        background: rgba(0, 0, 0, 0.7);
+    }
+}
+
+/* Print styles */
+@media print {
+    .game-container {
+        display: none;
+    }
+}
